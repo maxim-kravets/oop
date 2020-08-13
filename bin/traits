@@ -1,0 +1,15 @@
+#!/usr/bin/env php
+<?php
+
+
+use MaximKravets\OOP\Entity\User;
+
+require dirname(__DIR__).'/src/bootstrap.php';
+
+$user = new User();
+$user->setUsername('Max');
+$user->setEmail('kravets.development@gmail.com');
+//$user->selectChannelDatabase();
+//$user->selectChannelTelegram();
+$user->selectChannelEmail();
+$user->notify('Hello, '.$user->getUsername().'!');

@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+
+use MaximKravets\OOP\Entity\Post;
+
+require dirname(__DIR__).'/src/bootstrap.php';
+
+$post = Post::find(4);
+

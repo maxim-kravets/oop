@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+
+use MaximKravets\OOP\Service\Telegram;
+
+require dirname(__DIR__).'/src/bootstrap.php';
+
+$telegramService = new Telegram();
+$telegramService->auth();
