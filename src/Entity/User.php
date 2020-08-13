@@ -7,6 +7,7 @@ namespace MaximKravets\OOP\Entity;
 use MaximKravets\OOP\Traits\NotificationChannel\Database;
 use MaximKravets\OOP\Traits\NotificationChannel\Email;
 use MaximKravets\OOP\Traits\NotificationChannel\Telegram;
+use Symfony\Component\Console\Exception\LogicException;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -31,13 +32,9 @@ class User extends ActiveRecord
     private $channel_database = false;
     private $channel_email = false;
     private $channel_telegram = false;
-
+    
     public function notify(string $message)
     {
-        $input = new ArgvInput();
-        $output = new ConsoleOutput();
-        $io = new SymfonyStyle($input, $output);
-
         if ($this->channel_database) {
             $this->sendDatabase($this, $message);
         }
@@ -51,7 +48,7 @@ class User extends ActiveRecord
         }
 
         if (!$this->channel_database && !$this->channel_email && !$this->channel_telegram) {
-            $io->error('No communication channel selected. Please select at least one.');
+            throw new LogicException('No communication channel selected. Please select at least one.');
         }
     }
 

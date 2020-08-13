@@ -2,7 +2,7 @@
   "name": "maxim-kravets/oop",
   "type": "oop",
   "description": "Examples of usage traits, magic methods, static properties and methods, late static binding",
-  "license": "MIT",
+  "license": "proprietary",
   "require": {
     "php": "^7.2.5",
     "danog/madelineproto": "^5.1",

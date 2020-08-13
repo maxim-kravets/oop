@@ -3,13 +3,25 @@
 
 
 use MaximKravets\OOP\Entity\User;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 require dirname(__DIR__).'/src/bootstrap.php';
+
+$input = new ArgvInput();
+$output = new ConsoleOutput();
+$io = new SymfonyStyle($input, $output);
 
 $user = new User();
 $user->setUsername('Max');
 $user->setEmail('kravets.development@gmail.com');
-//$user->selectChannelDatabase();
-//$user->selectChannelTelegram();
+$user->selectChannelDatabase();
+$user->selectChannelTelegram();
 $user->selectChannelEmail();
-$user->notify('Hello, '.$user->getUsername().'!');
+
+try {
+    $user->notify('Hello, ' . $user->getUsername() . '!');
+} catch (LogicException $e) {
+    $io->error($e->getMessage());
+}

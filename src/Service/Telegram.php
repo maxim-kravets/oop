@@ -4,11 +4,6 @@
 namespace MaximKravets\OOP\Service;
 
 
-use danog\MadelineProto\API;
-use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Style\SymfonyStyle;
-
 class Telegram
 {
     private $api;
@@ -16,33 +11,8 @@ class Telegram
 
     public function __construct()
     {
-        $input = new ArgvInput();
-        $output = new ConsoleOutput();
-        $this->io = new SymfonyStyle($input, $output);
-
-        if (empty($_SERVER['APP_API_ID'])) {
-            $this->io->error('APP_API_ID can\'t be empty');
-
-            die();
-        }
-
-        if (empty($_SERVER['APP_API_HASH'])) {
-            $this->io->error('APP_API_HASH can\'t be empty');
-
-            die();
-        }
-
-        $settings =  [
-            'app_info' => [
-                'api_id' => $_SERVER['APP_API_ID'],
-                'api_hash' => $_SERVER['APP_API_HASH'],
-            ],
-            'logger' => [
-                'logger' => 0,
-            ],
-        ];
-
-        $this->api = new API(dirname(__DIR__).'/../var/telegram/session.madeline', $settings);
+        $telegramConfig = new TelegramConfiguration();
+        $this->api = $telegramConfig->getAPI();
     }
 
     public function auth()

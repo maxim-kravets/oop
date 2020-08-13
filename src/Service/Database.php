@@ -4,7 +4,6 @@ namespace MaximKravets\OOP\Service;
 
 use LogicException;
 use PDO;
-use Symfony\Component\Dotenv\Dotenv;
 
 class Database
 {
@@ -16,25 +15,8 @@ class Database
 
     private function __construct()
     {
-        $dotenv = new Dotenv();
-        $dotenv->loadEnv(dirname(__DIR__).'/../.env');
-
-        if (empty($_SERVER['DB_HOST'])) {
-            throw new LogicException('DB_HOST can\'t be empty. Fill it in .env');
-        }
-
-        if (empty($_SERVER['DB_NAME'])) {
-            throw new LogicException('DB_NAME can\'t be empty. Fill it in .env');
-        }
-
-        if (empty($_SERVER['DB_USER'])) {
-            throw new LogicException('DB_USER can\'t be empty. Fill it in .env');
-        }
-
-        $dsn = 'mysql://host='.$_SERVER['DB_HOST'].';dbname='.$_SERVER['DB_NAME'];
-
-        $this->pdo = new PDO($dsn, $_SERVER['DB_USER'], $_SERVER['DB_PASSWORD']);
-        $this->pdo->exec('SET NAMES utf8');
+        $dbConfig = new DatabaseConfiguration();
+        $this->pdo = $dbConfig->getConnection();
     }
 
     public static function getInstance(): self
